@@ -39,10 +39,7 @@ namespace StockFolio.Presenter
                 view.CBBuyStocks.DisplayMember = "Symbol";
                 view.CBBuyStocks.ValueMember = "Id";
 
-                if (state.Stocks.Count > 0 )
-                {
-                    view.CBBuyStocks.SelectedIndex = 0;
-                }
+                
 
                 view.CBBuyStocks.SelectedIndexChanged += delegate
                 {
@@ -52,8 +49,13 @@ namespace StockFolio.Presenter
                     } 
                     Stock s = view.CBBuyStocks.Items[view.CBBuyStocks.SelectedIndex] as Stock;
 
-                    view.BuyPrice = ((double)(s.Ltp / 100)).ToString("0.00");
+                    view.BuyPrice = ((double)s.Ltp / 100).ToString();
                 };
+                if (state.Stocks.Count > 0)
+                {
+                    view.CBBuyStocks.SelectedIndex = 0;
+                }
+
             }
 
             var dt = portfolioService.GetStocksDataTable();
