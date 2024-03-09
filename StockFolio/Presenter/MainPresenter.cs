@@ -31,7 +31,7 @@ namespace StockFolio.Presenter
                 view.TotalInvestment = state.TotalInvestment.ToString();
                 view.NetWorth = state.NetWorth.ToString();
                 view.LblTotalProfit.ForeColor = state.TotalProfit > 0 ? Color.Green : Color.Red;
-                view.TotalProfit = $"Rs. {state.TotalProfit} ({state.TotalProfitPercent.ToString("0.00")}%)";
+                view.TotalProfit = $"Rs. {state.TotalProfit.ToString("0.00")} ({state.TotalProfitPercent.ToString("0.00")}%)";
                 view.TotalQuantity = state.TotalQuantity.ToString();
                 view.DataGridUserStocks.DataSource = state.UserStocks;
 
@@ -53,7 +53,34 @@ namespace StockFolio.Presenter
                 };
                 if (state.Stocks.Count > 0)
                 {
-                    view.CBBuyStocks.SelectedIndex = 0;
+                    Stock s = view.CBBuyStocks.Items[view.CBBuyStocks.SelectedIndex] as Stock;
+
+                    view.BuyPrice = ((double)s.Ltp / 100).ToString();
+
+                }
+                view.CBSellStocks.DataSource = state.UserStocks;
+                view.CBSellStocks.DisplayMember = "StockSymbol";
+                view.CBSellStocks.ValueMember = "StockId";
+
+
+                view.CBSellStocks.SelectedIndexChanged += delegate
+                {
+                    if (view.CBSellStocks.SelectedIndex < 0)
+                    {
+                        return;
+                    }
+                    UserStocksDataModel s = view.CBSellStocks.Items[view.CBSellStocks.SelectedIndex] as UserStocksDataModel;
+
+                    view.SellPrice = s.Ltp.ToString();
+                };
+                if (state.UserStocks.Count > 0)
+                {
+                    UserStocksDataModel s = view.CBSellStocks.Items[view.CBSellStocks.SelectedIndex] as UserStocksDataModel;
+
+                    if (s != null)
+                    {
+                        view.SellPrice = s.Ltp.ToString();
+                    }
                 }
 
             }
@@ -95,12 +122,12 @@ namespace StockFolio.Presenter
                         throw new Exception("Buy Price: Only 1 or 2 digit after decimal");
                     }
 
-                    priceInPaisa = ( int ) (price * 100);
                     if (price <= 0)
                     {
                         throw new ValidationException("Buy Price must be greater than 0");
                     }
                 }
+                priceInPaisa = (int)(price * 100);
 
                 await this.portfolioService.BuyStock(AuthService.LoggedInUser.Id, stockId,view.BuyQuantity, priceInPaisa);
                 PopulateUI();
@@ -111,6 +138,55 @@ namespace StockFolio.Presenter
                 MessageBox.Show(ex.Message);
             }
         }
+        public async Task SellStock()
+        {
+            if (AuthService.LoggedInUser == null)
+            {
+                MessageBox.Show("Not logged in");
+                return;
+            }
+
+            try
+            {
+                if (view.SellQuantity <= 0)
+                {
+                    throw new ValidationException("Sell Quantity must be greater than 0");
+                }
+
+                if (view.CBSellStocks.SelectedIndex < 0)
+                {
+                    throw new ValidationException("Select the Stock to buy");
+                }
+                UserStocksDataModel s = view.CBSellStocks.Items[view.CBSellStocks.SelectedIndex] as UserStocksDataModel;
+
+                int stockId = s.StockId;
+                double price = Double.Parse(view.SellPrice);
+                int priceInPaisa = 0;
+                if (view.BuyPrice.Contains("."))
+                {
+                    var decimalRightLength = view.SellPrice.Split('.')[1].Length;
+                    if (decimalRightLength > 0 && decimalRightLength > 2)
+                    {
+                        throw new Exception("Buy Price: Only 1 or 2 digit after decimal");
+                    }
+
+                    priceInPaisa = (int)(price * 100);
+                    if (price <= 0)
+                    {
+                        throw new ValidationException("Buy Price must be greater than 0");
+                    }
+                }
+
+                await this.portfolioService.SellStock(AuthService.LoggedInUser.Id, stockId, view.SellQuantity, priceInPaisa);
+                PopulateUI();
+                MessageBox.Show($"Successfully sold {view.SellQuantity} units of  {s.StockSymbol} @ Rs.{price.ToString("0.00")}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
     }
 }

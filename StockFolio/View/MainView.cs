@@ -13,10 +13,14 @@ namespace StockFolio.View
         public DataGridView DataGridUserStocks { get => this.dataGridUserStocks; }
         public DataGridView DataGridViewStocksList { get => this.dataGridViewStocksList; }
         public Label LblTotalProfit { get => this.lblTotalProfit; }
-        public int BuyQuantity { get => ( int) nUDQuantity.Value; set => nUDQuantity.Value = value; }
+        public int BuyQuantity { get => (int)nUDQuantity.Value; set => nUDQuantity.Value = value; }
         public string BuyPrice { get => tbBuyPrice.Text; set => tbBuyPrice.Text = value; }
         public ComboBox CBBuyStocks => cbStock;
 
+        public int SellQuantity { get => (int)nUDSellQuantity.Value; set => nUDSellQuantity.Value = value; }
+        public string SellPrice { get => tbSellPrice.Text; set => tbSellPrice.Text = value; }
+
+        public ComboBox CBSellStocks => cbSellStock;
 
         public MainView()
         {
@@ -62,6 +66,21 @@ namespace StockFolio.View
         private void btnBuy_Click(object sender, EventArgs e)
         {
             Presenter.BuyStock();
+        }
+
+        private void btnSell_Click(object sender, EventArgs e)
+        {
+            Presenter.SellStock();
+        }
+
+        private void tabPortfolio_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            Presenter.PopulateUI();
         }
     }
 }

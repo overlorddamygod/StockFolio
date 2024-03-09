@@ -18,6 +18,9 @@ namespace StockFolio.View
         public int BuyQuantity { get; set; }
         public String BuyPrice { get; set; }
         public ComboBox CBBuyStocks { get; }
+        public int SellQuantity { get; set; }
+        public String SellPrice { get; set; }
+        public ComboBox CBSellStocks { get; }
 
         public DataGridView DataGridUserStocks { get; }
         public DataGridView DataGridViewStocksList { get; }

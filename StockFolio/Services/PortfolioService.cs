@@ -63,7 +63,7 @@ namespace StockFolio.Services
         {
             List<UserStock> userStocks = new List<UserStock>();
 
-            string query = "SELECT * FROM user_stocks where user_id = @userId";
+            string query = "SELECT * FROM user_stocks where user_id = @userId and quantity > 0";
 
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn.Connection))
             {

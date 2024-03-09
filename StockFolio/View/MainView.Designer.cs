@@ -31,6 +31,15 @@
             lblGreeting = new Label();
             tabControl1 = new TabControl();
             tabPortfolio = new TabPage();
+            btnRefresh = new Button();
+            groupBox6 = new GroupBox();
+            label6 = new Label();
+            label8 = new Label();
+            btnSell = new Button();
+            tbSellPrice = new TextBox();
+            label9 = new Label();
+            cbSellStock = new ComboBox();
+            nUDSellQuantity = new NumericUpDown();
             groupBox5 = new GroupBox();
             label5 = new Label();
             label4 = new Label();
@@ -56,6 +65,8 @@
             btnLogout = new Button();
             tabControl1.SuspendLayout();
             tabPortfolio.SuspendLayout();
+            groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nUDSellQuantity).BeginInit();
             groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nUDQuantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridUserStocks).BeginInit();
@@ -81,32 +92,123 @@
             // 
             // tabControl1
             // 
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl1.Controls.Add(tabPortfolio);
             tabControl1.Controls.Add(tabStocks);
-            tabControl1.ItemSize = new Size(78, 30);
+            tabControl1.ItemSize = new Size(100, 60);
             tabControl1.Location = new Point(24, 81);
             tabControl1.Margin = new Padding(6);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1549, 996);
+            tabControl1.Size = new Size(1549, 1106);
             tabControl1.TabIndex = 1;
             // 
             // tabPortfolio
             // 
+            tabPortfolio.Controls.Add(btnRefresh);
+            tabPortfolio.Controls.Add(groupBox6);
             tabPortfolio.Controls.Add(groupBox5);
             tabPortfolio.Controls.Add(dataGridUserStocks);
             tabPortfolio.Controls.Add(groupBox4);
             tabPortfolio.Controls.Add(groupBox3);
             tabPortfolio.Controls.Add(groupBox2);
             tabPortfolio.Controls.Add(groupBox1);
-            tabPortfolio.Location = new Point(8, 38);
+            tabPortfolio.Location = new Point(8, 68);
             tabPortfolio.Margin = new Padding(6);
             tabPortfolio.Name = "tabPortfolio";
             tabPortfolio.Padding = new Padding(93, 107, 93, 107);
-            tabPortfolio.Size = new Size(1533, 950);
+            tabPortfolio.Size = new Size(1533, 1030);
             tabPortfolio.TabIndex = 0;
             tabPortfolio.Text = "My Portfolio";
             tabPortfolio.UseVisualStyleBackColor = true;
+            tabPortfolio.Click += tabPortfolio_Click;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(1356, 633);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(150, 46);
+            btnRefresh.TabIndex = 8;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(label6);
+            groupBox6.Controls.Add(label8);
+            groupBox6.Controls.Add(btnSell);
+            groupBox6.Controls.Add(tbSellPrice);
+            groupBox6.Controls.Add(label9);
+            groupBox6.Controls.Add(cbSellStock);
+            groupBox6.Controls.Add(nUDSellQuantity);
+            groupBox6.Location = new Point(782, 216);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(724, 387);
+            groupBox6.TabIndex = 7;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Sell Stock";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(21, 184);
+            label6.Name = "label6";
+            label6.Size = new Size(65, 32);
+            label6.TabIndex = 6;
+            label6.Text = "Price";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(21, 123);
+            label8.Name = "label8";
+            label8.Size = new Size(106, 32);
+            label8.TabIndex = 5;
+            label8.Text = "Quantity";
+            // 
+            // btnSell
+            // 
+            btnSell.Location = new Point(170, 276);
+            btnSell.Name = "btnSell";
+            btnSell.Size = new Size(150, 46);
+            btnSell.TabIndex = 4;
+            btnSell.Text = "Sell";
+            btnSell.UseVisualStyleBackColor = true;
+            btnSell.Click += btnSell_Click;
+            // 
+            // tbSellPrice
+            // 
+            tbSellPrice.Location = new Point(170, 177);
+            tbSellPrice.Name = "tbSellPrice";
+            tbSellPrice.Size = new Size(240, 39);
+            tbSellPrice.TabIndex = 3;
+            tbSellPrice.Text = "1";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(21, 63);
+            label9.Name = "label9";
+            label9.Size = new Size(71, 32);
+            label9.TabIndex = 2;
+            label9.Text = "Stock";
+            // 
+            // cbSellStock
+            // 
+            cbSellStock.FormattingEnabled = true;
+            cbSellStock.Location = new Point(170, 55);
+            cbSellStock.Name = "cbSellStock";
+            cbSellStock.Size = new Size(240, 40);
+            cbSellStock.TabIndex = 1;
+            // 
+            // nUDSellQuantity
+            // 
+            nUDSellQuantity.Location = new Point(170, 116);
+            nUDSellQuantity.Name = "nUDSellQuantity";
+            nUDSellQuantity.Size = new Size(240, 39);
+            nUDSellQuantity.TabIndex = 0;
+            nUDSellQuantity.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // groupBox5
             // 
@@ -119,7 +221,7 @@
             groupBox5.Controls.Add(nUDQuantity);
             groupBox5.Location = new Point(25, 216);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(854, 387);
+            groupBox5.Size = new Size(729, 387);
             groupBox5.TabIndex = 6;
             groupBox5.TabStop = false;
             groupBox5.Text = "Buy Stock";
@@ -189,7 +291,7 @@
             // dataGridUserStocks
             // 
             dataGridUserStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridUserStocks.Location = new Point(25, 634);
+            dataGridUserStocks.Location = new Point(25, 709);
             dataGridUserStocks.Name = "dataGridUserStocks";
             dataGridUserStocks.RowHeadersWidth = 82;
             dataGridUserStocks.Size = new Size(1481, 300);
@@ -197,6 +299,7 @@
             // 
             // groupBox4
             // 
+            groupBox4.Anchor = AnchorStyles.None;
             groupBox4.Controls.Add(label7);
             groupBox4.Controls.Add(lblTotalQuantity);
             groupBox4.Location = new Point(1154, 30);
@@ -228,6 +331,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Anchor = AnchorStyles.None;
             groupBox3.Controls.Add(lblTotalProfit);
             groupBox3.Location = new Point(782, 30);
             groupBox3.Name = "groupBox3";
@@ -248,6 +352,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.None;
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(lblNetWorth);
             groupBox2.Location = new Point(402, 30);
@@ -279,6 +384,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.None;
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(lblTotalInvestment);
             groupBox1.Location = new Point(25, 30);
@@ -312,11 +418,11 @@
             // tabStocks
             // 
             tabStocks.Controls.Add(dataGridViewStocksList);
-            tabStocks.Location = new Point(8, 38);
+            tabStocks.Location = new Point(8, 68);
             tabStocks.Margin = new Padding(6);
             tabStocks.Name = "tabStocks";
             tabStocks.Padding = new Padding(93, 107, 93, 107);
-            tabStocks.Size = new Size(1533, 950);
+            tabStocks.Size = new Size(1533, 1030);
             tabStocks.TabIndex = 1;
             tabStocks.Text = "Stocks";
             tabStocks.UseVisualStyleBackColor = true;
@@ -332,6 +438,7 @@
             // 
             // btnLogout
             // 
+            btnLogout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnLogout.Location = new Point(1426, 20);
             btnLogout.Margin = new Padding(6);
             btnLogout.Name = "btnLogout";
@@ -345,7 +452,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1604, 1092);
+            ClientSize = new Size(1604, 1202);
             Controls.Add(btnLogout);
             Controls.Add(tabControl1);
             Controls.Add(lblGreeting);
@@ -356,6 +463,9 @@
             Load += MainForm_Load;
             tabControl1.ResumeLayout(false);
             tabPortfolio.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nUDSellQuantity).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nUDQuantity).EndInit();
@@ -402,5 +512,14 @@
         private Label label4;
         private Button btnBuy;
         private TextBox tbBuyPrice;
+        private GroupBox groupBox6;
+        private Label label6;
+        private Label label8;
+        private Button btnSell;
+        private TextBox tbSellPrice;
+        private Label label9;
+        private ComboBox cbSellStock;
+        private NumericUpDown nUDSellQuantity;
+        private Button btnRefresh;
     }
 }
